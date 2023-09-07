@@ -1,4 +1,0 @@
-//##HELPED TO: to-align-input-forms-in-html
-https://stackoverflow.com/questions/4309950/how-to-align-input-forms-in-html
-https://jsfiddle.net/DaS39/1/
-//##HELPED TO: center a table.

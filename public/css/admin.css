@@ -1,0 +1,21 @@
+body {
+  background-color: #fefae0;
+  background-image: none;
+}
+ul {
+  text-align: center;
+}
+ul li {
+  font-size: 1.8rem;
+}
+
+.secondary-heading {
+  font-size: 3.2rem;
+  background-color: transparent;
+  color: #283618;
+  margin-block: 23px;
+}
+.working-waiters-text {
+  text-align: center;
+  margin-block: 13px;
+}

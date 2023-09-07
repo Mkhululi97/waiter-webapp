@@ -1,0 +1,59 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ntombi's Coffee Shop</title>
+  </head>
+  <body>
+    <main>
+      <div class="wrapper">
+        <header class="heading">
+          <h1 class="primary-heading">Welcome To Ntombi's Coffee Shop</h1>
+        </header>
+        <div class="container">
+          <div class="form-sign-login">
+            <div class="form-wrapper">
+              <h3 class="tertiary-heading">Sign-up</h3>
+              <form id="sign-up-form" action="/register" method="POST">
+                <p class="label-input">
+                  <label class="username-label" for="#">Username:</label>
+                  <input name="username" class="username-input" type="text" />
+                </p>
+                <p class="label-input">
+                  <label class="password-label" for="#">Password:</label>
+                  <input
+                    name="password"
+                    class="password-input"
+                    type="password"
+                  />
+                </p>
+                <p class="label-input">
+                  <label class="employee-id-label" for="#">Employee_id:</label>
+                  <input
+                    name="employee_id"
+                    class="employee-id-input"
+                    type="number"
+                  />
+                </p>
+                <button class="sign-up-btn" type="submit">Sign Up</button>
+              </form>
+              <div class="flex">
+                <p class="account-text">already have an account?</p>
+                <a class="login-text" href="#">login</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+    <script src="/frontendjs/index.js"></script>
+  </body>
+</html>

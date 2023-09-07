@@ -1,0 +1,133 @@
+@import url("https://fonts.googleapis.com/css2?family=Merienda:wght@400;500;600;700;800&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 40%;
+}
+button {
+  font-family: inherit;
+}
+body {
+  font-family: "Merienda", cursive, sans-serif;
+  background-image: url(../coffee-img.jpg),
+    linear-gradient(#dda25e47, #dda25e47);
+  background-blend-mode: overlay;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  backdrop-filter: blur(2px);
+}
+.heading {
+  padding: 20px;
+  background-color: #dda25e;
+  color: #bc6c25;
+}
+.primary-heading {
+  text-align: center;
+  font-size: 3.6rem;
+}
+
+@media (min-width: 68em) {
+  html {
+    font-size: 62.5%;
+  }
+  .primary-heading {
+    font-size: 3.8rem;
+    letter-spacing: 0.7px;
+    font-weight: 800;
+  }
+  .tertiary-heading {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-block-end: 35px;
+  }
+  label {
+    font-size: 1.8rem;
+    letter-spacing: 0.2px;
+    font-weight: 700;
+  }
+  .account-text,
+  .login-text {
+    font-size: 1.5rem;
+  }
+  .form-sign-login,
+  .waiter-days {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .form-wrapper,
+  .waiter-days {
+    padding: 70px 60px;
+    background-color: #dda25eb3;
+    color: #fefae0;
+  }
+  .waiter-days {
+    padding: 60px;
+  }
+  input {
+    padding: 10px;
+    border-radius: 7px;
+    border: none;
+    margin-block-end: 13px;
+    margin-inline-start: 10px;
+  }
+  .flex {
+    display: flex;
+    justify-content: center;
+  }
+  .flex a {
+    margin-inline-start: 35px;
+    margin-block-end: 25px;
+  }
+  /* ----------  ALIGNS INPUT FIELDS ----------*/
+  form {
+    display: table;
+  }
+  .label-input {
+    display: table-row;
+  }
+  label {
+    display: table-cell;
+  }
+  input {
+    display: table-cell;
+  }
+  /* ----------  ALIGNS INPUT FIELDS ----------*/
+
+  .sign-up-btn {
+    width: 100%;
+    padding-block: 12px;
+    border-radius: 7px;
+    font-size: 2.2rem;
+    font-weight: 800;
+    border: none;
+    background-color: #606c38;
+    color: #283618;
+  }
+  /* ----------  WAITERS PAGE ----------*/
+  ul li {
+    font-size: 2.5rem;
+    list-style-type: none;
+  }
+  .secondary-heading,
+  .select-days-text {
+    text-align: center;
+  }
+  .select-days-text,
+  .working-waiters-text {
+    font-size: 2.5rem;
+  }
+
+  .secondary-heading {
+    font-size: 3.2rem;
+    background-color: #283618;
+    color: #fefae0;
+  }
+  /* ----------  WAITERS PAGE ----------*/
+}

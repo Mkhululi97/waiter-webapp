@@ -14,6 +14,15 @@
         <div class="container">
           {{!-- <h2 class="secondary-heading">Hello, {{admin_name}}👋🏽</h2> --}}
           <h2 class="secondary-heading">Hello, Ntombi👋🏽</h2>
+          <form action="/admin" method="GET" id="#">
+            <button class="schedule-btn" type="submit">See Scheduled days</button>
+          </form>
+
+          <ul class="scheduled-days">
+            {{#each weekdays}}
+              <li class="weekday">{{this}} 📆</li>
+            {{/each}}
+          </ul>
           <p class="working-waiters-text">Here's who on the clock⏰for this
             week📆</p>
           <ul>

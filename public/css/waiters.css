@@ -1,0 +1,29 @@
+@media (min-width: 68em) {
+  ul li {
+    font-size: 2.5rem;
+    list-style-type: none;
+  }
+  .secondary-heading,
+  .select-days-text {
+    text-align: center;
+  }
+  .select-days-text {
+    margin-block: 15px;
+  }
+  .select-days-text,
+  .working-waiters-text {
+    font-size: 2.5rem;
+  }
+  .secondary-heading {
+    font-size: 3.2rem;
+    background-color: #283618;
+    color: #fefae0;
+  }
+  #messageLabel {
+    display: block;
+    text-align: center;
+  }
+  .waiter-days {
+    transform: translate(-50%, -30%);
+  }
+}

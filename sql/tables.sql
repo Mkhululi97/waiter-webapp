@@ -9,3 +9,10 @@ create table waiters(
   password varchar(50) not null,
   employee_id int not null
 )
+
+create table workingdays(
+  id serial not null primary key, 
+  workdays varchar(30) not null, 
+  waiterid int not null, 
+  foreign key (waiterid) references waiters(waiter_id) on delete cascade
+)

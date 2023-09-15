@@ -2,6 +2,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/waiters.css" />
     <title>Ntombi's Coffee Shop</title>
   </head>
   <body>
@@ -13,39 +14,41 @@
         <div class="container">
           <h2 class="secondary-heading">Hello, {{waiter_name}}👋🏽</h2>
           <p class="select-days-text">Please select✅ your working days📆</p>
+          <label id="messageLabel"></label>
           <div class="waiter-days">
-            <form action="#">
+            <form action="/days" method="POST" id="add-days">
               <ul>
                 <li>
-                  <input type="checkbox" />
+                  <input type="checkbox" name="checkbox" value="Monday" />
                   Monday
                 </li>
                 <li>
-                  <input type="checkbox" />
+                  <input type="checkbox" name="checkbox" value="Tuesday" />
                   Tuesday
                 </li>
                 <li>
-                  <input type="checkbox" />
+                  <input type="checkbox" name="checkbox" value="Wednesday" />
                   Wednesday
                 </li>
                 <li>
-                  <input type="checkbox" />
+                  <input type="checkbox" name="checkbox" value="Thursday" />
                   Thursday
                 </li>
                 <li>
-                  <input type="checkbox" />
+                  <input type="checkbox" name="checkbox" value="Friday" />
                   Friday
                 </li>
                 <li>
-                  <input type="checkbox" />
+                  <input type="checkbox" name="checkbox" value="Saturday" />
                   Saturday
                 </li>
                 <li>
-                  <input type="checkbox" />
+                  <input type="checkbox" name="checkbox" value="Sunday" />
                   Sunday
                 </li>
               </ul>
             </form>
+            <button type="submit" class="add-days-btn" form="add-days">Add days</button>
           </div>
         </div>
       </div>

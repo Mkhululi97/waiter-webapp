@@ -61,6 +61,8 @@ app.get("/", waiterRoute.home);
 app.post("/register", waiterRoute.register);
 app.get("/waiters", waiterRoute.waitersPage);
 app.get("/admin", waiterRoute.adminPage);
+app.get("/info", waiterRoute.info);
+app.post("/days", waiterRoute.days);
 /* -------------------- ALL ROUTES -------------------- */
 
 // CREATE PORT VARIABLE

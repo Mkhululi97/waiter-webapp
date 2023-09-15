@@ -2,20 +2,52 @@ body {
   background-color: #fefae0;
   background-image: none;
 }
-ul {
-  text-align: center;
-}
-ul li {
-  font-size: 1.8rem;
-}
+@media (min-width: 68em) {
+  ul {
+    text-align: center;
+  }
+  ul li {
+    font-size: 1.8rem;
+    list-style-type: none;
+  }
 
-.secondary-heading {
-  font-size: 3.2rem;
-  background-color: transparent;
-  color: #283618;
-  margin-block: 23px;
-}
-.working-waiters-text {
-  text-align: center;
-  margin-block: 13px;
+  .secondary-heading {
+    font-size: 3.2rem;
+    background-color: transparent;
+    color: #283618;
+    margin-block: 23px;
+  }
+  .working-waiters-text {
+    text-align: center;
+    margin-block: 13px;
+  }
+  .schedule-btn {
+    background-color: #283618;
+    color: #fefae0;
+    padding: 7px;
+    border-radius: 5px;
+    margin-block-end: 20px;
+    margin-inline-start: 15px;
+  }
+  .scheduled-days {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background-color: #283618;
+    padding: 30px;
+  }
+  .weekday {
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  .over-booked {
+    background-color: red;
+  }
+  .fully-booked {
+    background-color: greenyellow;
+  }
+  .under-booked {
+    background-color: yellow;
+  }
 }

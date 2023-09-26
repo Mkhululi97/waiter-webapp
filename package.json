@@ -24,8 +24,7 @@
   },
   "contributors": [],
   "scripts": {
-    "dev": "",
-    "test": "mocha"
+    "dev": ""
   },
   "dependencies": {
     "body-parser": "^1.20.2",

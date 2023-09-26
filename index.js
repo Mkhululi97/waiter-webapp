@@ -57,11 +57,19 @@ app.use(
 /* -------------------- USE FLASH MIDDLEWARE -------------------- */
 app.use(flash());
 /* -------------------- ALL ROUTES -------------------- */
+// shows sign-up or login screen
 app.get("/", waiterRoute.home);
+// action taken on the sign-up button, to submit the sign-up form
 app.post("/register", waiterRoute.register);
+// shows waiters page, which displays days of the week
 app.get("/waiters", waiterRoute.waitersPage);
+// shows admins page and displays the schedule, together with who's on the clock for the week.
 app.get("/admin", waiterRoute.adminPage);
+// sends data to frontend about which days are over, fully, under, booked.
 app.get("/info", waiterRoute.info);
+// sends data to frontend about the waiter names and their working days.
+app.get("/inform", waiterRoute.inform);
+// action taken on the add days button, on the waiters page.
 app.post("/days", waiterRoute.days);
 /* -------------------- ALL ROUTES -------------------- */
 

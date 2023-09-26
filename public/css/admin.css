@@ -1,8 +1,13 @@
 body {
-  background-color: #fefae0;
+  background-color: #283614;
   background-image: none;
+  color: #fefae0;
 }
 @media (min-width: 68em) {
+  .container {
+    max-width: fit-content;
+    margin: 0 auto;
+  }
   ul {
     text-align: center;
   }
@@ -12,34 +17,41 @@ body {
   }
 
   .secondary-heading {
-    font-size: 3.2rem;
+    font-size: 3.5rem;
     background-color: transparent;
-    color: #283618;
     margin-block: 23px;
+    /* text-align: center; */
   }
   .working-waiters-text {
-    text-align: center;
-    margin-block: 13px;
+    /* text-align: center; */
+    margin-block-end: 32px;
+    font-size: 2.5rem;
+    /* color: #283618; */
   }
   .schedule-btn {
-    background-color: #283618;
-    color: #fefae0;
+    background-color: #fefae0;
+    color: #283618;
     padding: 7px;
+    padding: 11px;
     border-radius: 5px;
-    margin-block-end: 20px;
-    margin-inline-start: 15px;
+    margin-block-end: 42px;
+    /* margin-inline-start: 15px; */
+    cursor: pointer;
+    font-size: 1.6rem;
   }
   .scheduled-days {
     display: flex;
-    justify-content: center;
     gap: 20px;
-    background-color: #283618;
-    padding: 30px;
+    margin-block-end: 52px;
+    /* justify-content: center; */
+    /* background-color: #283618; */
+    /* padding: 30px; */
   }
   .weekday {
     padding: 10px;
     border-radius: 5px;
     background-color: #fff;
+    color: #283618;
   }
   .over-booked {
     background-color: red;
@@ -49,5 +61,26 @@ body {
   }
   .under-booked {
     background-color: yellow;
+  }
+  #waiters-working-days {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: fit-content;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 30px;
+  }
+  .waiter-working-days {
+    padding: 20px;
+    border-radius: 5px;
+    width: fit-content;
+    /* background-color: #283618; */
+    /* background-color: #606c38; */
+    background-color: #fefae0;
+    color: #606c38;
+    border: solid 2px #283614;
+  }
+  .waiter-name {
+    margin-block-end: 8px;
   }
 }

@@ -13,23 +13,21 @@
         </header>
         <div class="container">
           {{!-- <h2 class="secondary-heading">Hello, {{admin_name}}👋🏽</h2> --}}
-          <h2 class="secondary-heading">Hello, Ntombi👋🏽</h2>
-          <form action="/admin" method="GET" id="#">
-            <button class="schedule-btn" type="submit">See Scheduled days</button>
-          </form>
-
+          <h2 class="secondary-heading">Hi, Ntombi👋🏽</h2>
+          <p class="working-waiters-text">Here's an indication of days that are
+            fully, over and under booked:</p>
           <ul class="scheduled-days">
             {{#each weekdays}}
               <li class="weekday">{{this}} 📆</li>
             {{/each}}
           </ul>
+          <form action="/admin" method="GET" id="#">
+            <button class="schedule-btn" type="submit">See Scheduled days</button>
+          </form>
           <p class="working-waiters-text">Here's who on the clock⏰for this
-            week📆</p>
-          <ul>
-            {{#each waiters}}
-              <li>{{this.waiter_name}}</li>
-            {{/each}}
-          </ul>
+            week📆:</p>
+          <div id="waiters-working-days">
+          </div>
         </div>
       </div>
     </main>

@@ -9,8 +9,12 @@ window.addEventListener("DOMContentLoaded", function () {
     "Sunday",
   ];
   // Hit this url when the 'see scheduled days' button is clicked on the admins page.
-  const baseUrl = "http://localhost:3002/info" || "/info";
-  const scheduleurl = "http://localhost:3002/inform" || "/inform";
+  // const baseUrl = "http://localhost:3002/info"
+
+  // const scheduleurl = "http://localhost:3002/inform"
+
+  const baseUrl = "https://waiter-webapp-ywrf.onrender.com/info";
+  const scheduleurl = "https://waiter-webapp-ywrf.onrender.com/inform";
 
   /* ------------------ GET HTML ELEMENTS ------------------ */
   const addDaysBtn = document.querySelector(".add-days-btn");

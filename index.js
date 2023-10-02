@@ -59,8 +59,12 @@ app.use(flash());
 /* -------------------- ALL ROUTES -------------------- */
 // shows sign-up or login screen
 app.get("/", waiterRoute.home);
+// shows login screen for waiters
+app.get("/adminlogin", waiterRoute.adminLoginForm);
 // action taken on the sign-up button, to submit the sign-up form
-app.post("/register", waiterRoute.register);
+app.post("/register", waiterRoute.formDetails);
+// action taken on the login button, to submit admins login form
+app.post("/adminlogin", waiterRoute.adminLoginDetails);
 // shows waiters page, which displays days of the week
 app.get("/waiters", waiterRoute.waitersPage);
 // shows admins page and displays the schedule, together with who's on the clock for the week.

@@ -20,6 +20,9 @@ body {
   background-position: center;
   backdrop-filter: blur(2px);
 }
+.hide-el {
+  display: none !important;
+}
 .heading {
   padding: 20px;
   background-color: #dda25e;
@@ -80,7 +83,7 @@ body {
   }
   .flex {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
   }
   .flex a {
     margin-inline-start: 35px;
@@ -100,8 +103,8 @@ body {
     display: table-cell;
   }
   /* ----------  ALIGNS INPUT FIELDS ----------*/
-
-  .sign-up-btn {
+  .btn,
+  .add-days-btn {
     width: 100%;
     padding-block: 12px;
     border-radius: 7px;
@@ -110,5 +113,13 @@ body {
     border: none;
     background-color: #606c38;
     color: #283618;
+    cursor: pointer;
+  }
+  .add-days-btn {
+    margin-top: 20px;
+  }
+  .checkbox {
+    width: 25px;
+    height: 25px;
   }
 }

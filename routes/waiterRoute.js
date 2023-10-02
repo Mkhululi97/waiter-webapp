@@ -1,17 +1,38 @@
 export default function WaiterRoute(factoryFunc, dbFunc) {
-  async function home(req, res) {
+  function home(req, res) {
     try {
       res.render("home");
     } catch (err) {
       console.log(err);
     }
   }
-
-  async function register(req, res) {
+  function adminLoginForm(req, res) {
+    try {
+      res.render("adminlogin");
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function adminLoginDetails(req, res) {
+    let username = req.body.username;
+    let password = req.body.password;
+    /* WHEN THE USER IS AN ADMIN */
+    if (username !== "" && password !== "") {
+      /* ONLY REDIRECT TO THE DASHBOARD IF USER IS AN ADMIN  */
+      if (await dbFunc.adminLogin(username, password)) {
+        res.redirect("/admin");
+      } else {
+        // throw an error message.
+        res.redirect("/");
+      }
+    }
+  }
+  async function formDetails(req, res) {
     try {
       let username = req.body.username;
       let password = req.body.password;
       let employee_id = req.body.employee_id;
+      /* WHEN THE USER IS A WAITER */
       // only submit the form when all inputs have been entered.
       if (username !== "" && password !== "" && employee_id !== "") {
         /* CREATE ACCOUNT FOR A NEW WAITER */
@@ -25,7 +46,6 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
       console.log(err);
     }
   }
-
   async function waitersPage(req, res) {
     try {
       /* SHOW WAITERS PAGE, WITH CHECKBOX WEEKDAYS TO SELECT FROM */
@@ -36,7 +56,6 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
       console.log(err);
     }
   }
-
   async function days(req, res) {
     try {
       let workingDays = req.body.checkbox;
@@ -54,9 +73,7 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
       await dbFunc.setSchedule();
       await dbFunc.setWorkingDaysForAWaiter();
       res.render("admin", {
-        // waiters: dbFunc.getWaiters(),
         weekdays: dbFunc.getWeekdays(),
-        /*------------------------------------ populate the waiter days here ------------------------------------*/
       });
     } catch (err) {
       console.log(err);
@@ -64,6 +81,7 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
   }
   /* SEND SCHEDULE DATA TO THE FRONTEND */
   async function info(req, res) {
+    /*------------------------------------ populate the waiter days here ------------------------------------*/
     res.json({ info: dbFunc.getSchedule() });
   }
   /* SEND WAITER NAME AND WAITER WORKING DAYS DATA TO THE FRONTEND */
@@ -72,5 +90,15 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
   }
   /* ------------------------- ROUTES CONCERNED WITH THE ADMINS PAGE ------------------------- */
 
-  return { home, register, waitersPage, adminPage, days, info, inform };
+  return {
+    home,
+    formDetails,
+    waitersPage,
+    adminPage,
+    days,
+    info,
+    inform,
+    adminLoginForm,
+    adminLoginDetails,
+  };
 }

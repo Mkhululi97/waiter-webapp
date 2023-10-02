@@ -3,16 +3,18 @@ export default function dbFactoryFunc(db) {
   let waiters;
   let waiterWorkingDays;
   let usernameTrimmed;
+  let adminUser;
   let currentWaiter;
   let workdays;
   let weekdaysObj;
   let updateWorkingdays = false;
+  let isAdmin = false;
   const lettersOnlyRegex = /^[a-zA-Z]+$/;
 
   /* Sign new waiters up */
   async function setWaiter(username, employee_id, password) {
     usernameTrimmed = username.trim().toLowerCase();
-    // ensure the string inputed is username that contains any numbers and spaces.
+    // ensure the string inputed is username that does not contain any numbers and spaces.
     if (lettersOnlyRegex.test(usernameTrimmed)) {
       let waitercheck = await db.oneOrNone(
         "select waiter_name from waiters where waiter_name = $1",
@@ -33,7 +35,23 @@ export default function dbFactoryFunc(db) {
       return waitercheck;
     }
   }
-
+  /* Take user to the admins page, only if they exist on the admins table */
+  async function adminLogin(username, password) {
+    isAdmin = false;
+    adminUser = username.trim().toLowerCase();
+    // ensure the string inputed is username that does not contain any numbers and spaces.
+    if (lettersOnlyRegex.test(adminUser)) {
+      let query = await db.manyOrNone(
+        "select * from admin where admin_name=$1 and password=$2",
+        [adminUser, password]
+      );
+      // if the query returns an object, then current user is an admin on our database.
+      if (query[0]) {
+        isAdmin = true;
+      }
+    }
+    return isAdmin;
+  }
   /* Deal with the days a waiter would like to work */
   async function setDays(days) {
     let daysStr = days.toString();
@@ -133,5 +151,6 @@ export default function dbFactoryFunc(db) {
     getWeekdays,
     setWorkingDaysForAWaiter,
     getWorkingDaysForAWaiter,
+    adminLogin,
   };
 }

@@ -13,8 +13,8 @@
         <div class="container">
           <div class="form-sign-login">
             <div class="form-wrapper">
-              <h3 class="tertiary-heading signup">Login</h3>
-              <form id="sign-up-form" action="/register" method="POST">
+              <h3 class="tertiary-heading">Login</h3>
+              <form id="sign-up-form" action="/adminlogin" method="POST">
                 <p class="label-input">
                   <label class="username-label" for="#">Username:</label>
                   <input name="username" class="username-input" type="text" />
@@ -27,23 +27,15 @@
                     type="password"
                   />
                 </p>
-                <p class="label-input employee-id-label">
-                  <label class="employee-id-label" for="#">Employee_id:</label>
-                  <input
-                    name="employee_id"
-                    class="employee-id-input"
-                    type="number"
-                  />
-                </p>
               </form>
               <button
-                class="btn sign-up-btn"
+                class="btn login-btn"
                 type="submit"
                 form="sign-up-form"
               >Login</button>
               <div class="flex login-info">
-                <p class="account-text">Are you the admin?</p>
-                <a class="login-text switch-user" href="adminlogin">login</a>
+                <p class="account-text">Are you a waiter?</p>
+                <a class="login-text switch-user" href="/">login</a>
               </div>
             </div>
           </div>

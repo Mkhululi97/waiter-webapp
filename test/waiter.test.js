@@ -65,6 +65,20 @@ describe("Test Waiter Functions", function () {
     });
   });
 
+  describe("dbFactoryFunc function", function () {
+    it("should return a boolean value, base on if user exist on the admin tables", async function () {
+      try {
+        let dbFactoryFunc = DBFactoryFunc(db);
+        assert.equal(
+          true,
+          await dbFactoryFunc.adminLogin("ntombi", "ntombi123")
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  });
+
   // close of the connection to the database.
   // after(function () {
   //   db.$pool.end();

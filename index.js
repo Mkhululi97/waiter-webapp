@@ -66,15 +66,15 @@ app.post("/register", waiterRoute.formDetails);
 // action taken on the login button, to submit admins login form
 app.post("/adminlogin", waiterRoute.adminLoginDetails);
 // shows waiters page, which displays days of the week
-app.get("/waiters", waiterRoute.waitersPage);
+app.get("/waiters/:username", waiterRoute.waitersPage);
 // shows admins page and displays the schedule, together with who's on the clock for the week.
 app.get("/admin", waiterRoute.adminPage);
 // sends data to frontend about which days are over, fully, under, booked.
 app.get("/info", waiterRoute.info);
 // sends data to frontend about the waiter names and their working days.
 app.get("/inform", waiterRoute.inform);
-// action taken on the add days button, on the waiters page.
-app.post("/days", waiterRoute.days);
+// // action taken on the add days button, on the waiters page.
+app.post("/waiters/:username", waiterRoute.days);
 // action taken on the reset schedule button, on the admins page.
 app.get("/resetschedule", waiterRoute.reset);
 /* -------------------- ALL ROUTES -------------------- */

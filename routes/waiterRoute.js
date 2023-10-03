@@ -37,7 +37,7 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
       if (username !== "" && password !== "" && employee_id !== "") {
         /* CREATE ACCOUNT FOR A NEW WAITER */
         await dbFunc.setWaiter(username, employee_id, password);
-        res.redirect("/waiters");
+        res.redirect(`/waiters/${username}`);
       } else {
         // throw an error message.
         res.redirect("/");
@@ -59,9 +59,10 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
   async function days(req, res) {
     try {
       let workingDays = req.body.checkbox;
+      let currentWaiter = req.params.username;
       /* SEND THE WEEKDAYS SELECTED TO THE DB */
       await dbFunc.setDays(workingDays);
-      res.redirect("/waiters");
+      res.redirect(`/waiters/${currentWaiter}`);
     } catch (err) {
       console.log(err);
     }

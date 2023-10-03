@@ -9,6 +9,7 @@ export default function dbFactoryFunc(db) {
   let weekdaysObj;
   let updateWorkingdays = false;
   let isAdmin = false;
+  let waitersMap = {};
   const lettersOnlyRegex = /^[a-zA-Z]+$/;
 
   /* Sign new waiters up */
@@ -76,7 +77,7 @@ export default function dbFactoryFunc(db) {
     return await db.manyOrNone("select workdays from workingdays");
   }
 
-  /* Count how many times each weekday, has been selected */
+  /* Counts how many times each weekday, has been selected */
   async function setSchedule() {
     workdays = await db.manyOrNone("select workdays from workingdays");
     /* +++++++++++++++++++++++++++++++++++++++++++++ */
@@ -96,8 +97,13 @@ export default function dbFactoryFunc(db) {
     /* +++++++++++++++++++++++++++++++++++++++++++++ */
   }
 
+  async function resetSchedule() {
+    weekdaysObj = {};
+    waitersMap = {};
+    return await db.none("truncate table waiters restart identity cascade");
+  }
+
   /* ------------------------- FUNCTION TO DISPLAY WAITER NAME AND HIS/HER WORKING DAYS ------------------------- */
-  let waitersMap = {};
   async function setWorkingDaysForAWaiter() {
     waiters = await db.manyOrNone("select * from waiters");
     for (const waiterobj of waiters) {
@@ -112,16 +118,10 @@ export default function dbFactoryFunc(db) {
   /* ------------------------- FUNCTION TO DISPLAY WAITER NAME AND HIS/HER WORKING DAYS ------------------------- */
 
   /* ------------------------- FUNCTIONS TO CALL ON ROUTES THAT DISPLAY INFORMATION ------------------------- */
-  function getWeekdays() {
-    return [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ];
+  async function getWeekdays() {
+    const objWeekdays = await db.oneOrNone("select * from daysoftheweek");
+    let weekdaysArr = objWeekdays["weekdays"].split(",");
+    return weekdaysArr;
   }
   /* Call the function on the admin route */
   function getSchedule() {
@@ -140,7 +140,6 @@ export default function dbFactoryFunc(db) {
     return waitersMap;
   }
   /* ------------------------- FUNCTIONS TO CALL ON ROUTES THAT DISPLAY INFORMATION ------------------------- */
-
   return {
     setWaiter,
     getWaiter,
@@ -152,5 +151,6 @@ export default function dbFactoryFunc(db) {
     setWorkingDaysForAWaiter,
     getWorkingDaysForAWaiter,
     adminLogin,
+    resetSchedule,
   };
 }

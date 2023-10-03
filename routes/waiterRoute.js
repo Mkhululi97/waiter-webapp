@@ -60,7 +60,7 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
     try {
       let workingDays = req.body.checkbox;
       /* SEND THE WEEKDAYS SELECTED TO THE DB */
-      dbFunc.setDays(workingDays);
+      await dbFunc.setDays(workingDays);
       res.redirect("/waiters");
     } catch (err) {
       console.log(err);
@@ -73,8 +73,16 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
       await dbFunc.setSchedule();
       await dbFunc.setWorkingDaysForAWaiter();
       res.render("admin", {
-        weekdays: dbFunc.getWeekdays(),
+        weekdays: await dbFunc.getWeekdays(),
       });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async function reset(req, res) {
+    try {
+      await dbFunc.resetSchedule();
+      res.redirect("/admin");
     } catch (err) {
       console.log(err);
     }
@@ -100,5 +108,6 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
     inform,
     adminLoginForm,
     adminLoginDetails,
+    reset,
   };
 }

@@ -21,9 +21,17 @@
               <li class="weekday">{{this}} 📆</li>
             {{/each}}
           </ul>
-          <form action="/admin" method="GET" id="#">
-            <button class="schedule-btn" type="submit">See Scheduled days</button>
-          </form>
+          <form action="/admin" method="GET" id="schedule"></form>
+          <form action="/resetschedule" method="GET" id="reset-schedule"></form>
+          <div class="schedule-buttons">
+            <button class="schedule-btn btn" type="submit" form="schedule">See
+              Scheduled days</button>
+            <button
+              class="reset-schedule-btn btn"
+              form="reset-schedule"
+              type="submit"
+            >Reset Schedule</button>
+          </div>
           <p class="working-waiters-text">Here's who on the clock⏰for this
             week📆:</p>
           <div id="waiters-working-days">

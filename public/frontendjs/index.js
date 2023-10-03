@@ -9,23 +9,17 @@ window.addEventListener("DOMContentLoaded", function () {
     "Sunday",
   ];
   // Hit these urls when the 'see scheduled days' button is clicked on the admins page.
-  // const baseUrl = "http://localhost:3002/info";
-  // const scheduleurl = "http://localhost:3002/inform";
+  const baseUrl = "http://localhost:3002/info";
+  const scheduleurl = "http://localhost:3002/inform";
 
-  const baseUrl = "https://waiter-webapp-ywrf.onrender.com/info";
-  const scheduleurl = "https://waiter-webapp-ywrf.onrender.com/inform";
+  // const baseUrl = "https://waiter-webapp-ywrf.onrender.com/info";
+  // const scheduleurl = "https://waiter-webapp-ywrf.onrender.com/inform";
 
   /* ------------------ GET HTML ELEMENTS ------------------ */
   const addDaysBtn = document.querySelector(".add-days-btn");
   const scheduleBtn = document.querySelector(".schedule-btn");
   const dayEle = document.querySelectorAll(".weekday");
-  const switchUserBtn = document.querySelector(".switch-user");
-  // const loginLabel = document.querySelector(".login");
-  // const signupLabel = document.querySelector(".signup");
-  // const employeeId = document.querySelector(".employee-id-label");
-  // const signUpBtn = document.querySelector(".sign-up-btn");
-  // const loginBtn = document.querySelector(".login-btn");
-  // const accountText = document.querySelector(".account-text");
+  const reset = document.querySelector(".reset-schedule-btn");
   /* ------------------ GET HTML ELEMENTS ------------------ */
 
   /* ------------------ FUNCTIONALITY FOR LIMITING CHECKBOXES ------------------ */
@@ -111,42 +105,18 @@ window.addEventListener("DOMContentLoaded", function () {
     waiterTempContainer.innerHTML = out;
   }
   /* ------------------ TEMPLATE THAT SHOWS WAITER NAME AND DAYS THEY SELECTED TO WORK ------------------ */
+  if (reset !== null) {
+    reset.addEventListener("click", function (e) {
+      const deleteData = window.confirm(
+        "Are you sure you want to reset waiter schedule"
+      );
+      //when true delete the data, when false do not delete data
 
-  /* ------------------ FUNCTIONALITY FOR SWITCHING LOGIN SCREENS BETWEEN WAITER AND ADMIN ------------------ */
-  // function switchUserFunc() {
-  //   if (loginLabel.classList.toggle("hide-el")) {
-  //     /* This is the admins signup screen */
-  //     // when login label does the class of hide-el
-  //     // change the 'are you the waiter' text to 'are you a admin'
-  //     accountText.innerHTML = `Are you the admin?`;
-  //     // also show the employee_id input field.
-  //     employeeId.classList.toggle("hide-el");
-  //     // also show the sign-up button.
-  //     signUpBtn.classList.toggle("hide-el");
-  //     // also hide the login button.
-  //     loginBtn.classList.toggle("hide-el");
-  //   } else {
-  //     /* This is the admins login screen */
-  //     // when login label does not have the class of hide-el
-  //     // change the are you the admin text to are you a waiter
-  //     accountText.innerHTML = `Are you the waiter?`;
-  //     // also hide the employee_id input field.
-  //     employeeId.classList.toggle("hide-el");
-  //     // also hide the sign up button.
-  //     signUpBtn.classList.toggle("hide-el");
-  //     // also show the login button.
-  //     loginBtn.classList.toggle("hide-el");
-  //   }
-  //   // hide the sign up label on the form, when the user is an admin
-  //   signupLabel.classList.toggle("hide-el");
-  // }
-  /* ------------------ FUNCTIONALITY FOR SWITCHING LOGIN SCREENS BETWEEN WAITER AND ADMIN ------------------ */
-
+      deleteData ? "" : e.preventDefault();
+      console.log(deleteData);
+    });
+  }
   /* ------------------ EVENT LISTENERS ------------------ */
-  // wait for the home page to execute this event listener
-  // if (switchUserBtn !== null)
-  //   switchUserBtn.addEventListener("click", switchUserFunc);
-
   // wait for the waiters page to execute this event listener
   if (addDaysBtn !== null) addDaysBtn.addEventListener("click", addDaysFunc);
 

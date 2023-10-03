@@ -16,3 +16,8 @@ create table workingdays(
   waiterid int not null, 
   foreign key (waiterid) references waiters(waiter_id) on delete cascade
 )
+
+create table daysoftheweek(
+  id serial not null primary key, 
+  weekdays text not null
+);

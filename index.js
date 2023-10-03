@@ -75,6 +75,8 @@ app.get("/info", waiterRoute.info);
 app.get("/inform", waiterRoute.inform);
 // action taken on the add days button, on the waiters page.
 app.post("/days", waiterRoute.days);
+// action taken on the reset schedule button, on the admins page.
+app.get("/resetschedule", waiterRoute.reset);
 /* -------------------- ALL ROUTES -------------------- */
 
 // CREATE PORT VARIABLE

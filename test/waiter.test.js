@@ -65,7 +65,7 @@ describe("Test Waiter Functions", function () {
     });
   });
 
-  describe("dbFactoryFunc function", function () {
+  describe("adminLogin function", function () {
     it("should return a boolean value, base on if user exist on the admin tables", async function () {
       try {
         let dbFactoryFunc = DBFactoryFunc(db);
@@ -76,6 +76,14 @@ describe("Test Waiter Functions", function () {
       } catch (err) {
         console.log(err);
       }
+    });
+  });
+  describe("resetSchedule function", function () {
+    it("should clear both the waiters and the workingdays table from the database", async function () {
+      let dbFactoryFunc = DBFactoryFunc(db);
+      await dbFactoryFunc.setWaiter("Mdu", 343, "psswrd123");
+      await dbFactoryFunc.setDays(["Monday", "Wednesday", "Thursday"]);
+      assert.equal(null, await dbFactoryFunc.resetSchedule());
     });
   });
 

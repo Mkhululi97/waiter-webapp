@@ -9,11 +9,11 @@ window.addEventListener("DOMContentLoaded", function () {
     "Sunday",
   ];
   // Hit these urls when the 'see scheduled days' button is clicked on the admins page.
-  const baseUrl = "http://localhost:3002/info";
-  const scheduleurl = "http://localhost:3002/inform";
+  // const baseUrl = "http://localhost:3002/info";
+  // const scheduleurl = "http://localhost:3002/inform";
 
-  // const baseUrl = "https://waiter-webapp-ywrf.onrender.com/info";
-  // const scheduleurl = "https://waiter-webapp-ywrf.onrender.com/inform";
+  const baseUrl = "https://waiter-webapp-ywrf.onrender.com/info";
+  const scheduleurl = "https://waiter-webapp-ywrf.onrender.com/inform";
 
   /* ------------------ GET HTML ELEMENTS ------------------ */
   const addDaysBtn = document.querySelector(".add-days-btn");
@@ -105,6 +105,7 @@ window.addEventListener("DOMContentLoaded", function () {
     waiterTempContainer.innerHTML = out;
   }
   /* ------------------ TEMPLATE THAT SHOWS WAITER NAME AND DAYS THEY SELECTED TO WORK ------------------ */
+  /* ------------------ EVENT LISTENERS ------------------ */
   if (reset !== null) {
     reset.addEventListener("click", function (e) {
       const deleteData = window.confirm(
@@ -113,10 +114,9 @@ window.addEventListener("DOMContentLoaded", function () {
       //when true delete the data, when false do not delete data
 
       deleteData ? "" : e.preventDefault();
-      console.log(deleteData);
     });
   }
-  /* ------------------ EVENT LISTENERS ------------------ */
+
   // wait for the waiters page to execute this event listener
   if (addDaysBtn !== null) addDaysBtn.addEventListener("click", addDaysFunc);
 

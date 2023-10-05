@@ -48,6 +48,7 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
   }
   async function waitersPage(req, res) {
     try {
+      let currentWaiter = req.params.username;
       /* SHOW WAITERS PAGE, WITH CHECKBOX WEEKDAYS TO SELECT FROM */
       res.render("waiters", {
         waiter_name: dbFunc.getWaiter(),

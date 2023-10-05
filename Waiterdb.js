@@ -104,7 +104,13 @@ export default function dbFactoryFunc(db) {
   }
 
   /* ------------------------- FUNCTION TO DISPLAY WAITER NAME AND HIS/HER WORKING DAYS ------------------------- */
+  let weekdaysArr;
+  let tableDaysMap = {};
+  let waitersForSpeficDay = [];
+  let uniqueArray;
   async function setWorkingDaysForAWaiter() {
+    const objWeekdays = await db.oneOrNone("select * from daysoftheweek");
+    weekdaysArr = objWeekdays["weekdays"].split(",");
     waiters = await db.manyOrNone("select * from waiters");
     for (const waiterobj of waiters) {
       // use waiters array to find the days a set waiter will be working.
@@ -114,15 +120,29 @@ export default function dbFactoryFunc(db) {
       );
       waitersMap[waiterobj["waiter_name"]] = waiterWorkingDays[0]["workdays"]; // { mdu:'Monday, Tuesday, Sunday' }
     }
+    // loop over the waitersMap
+    Object.entries(waitersMap).forEach(([key, value]) => {
+      // loop over the days of the week
+      weekdaysArr.forEach((day) => {
+        // check for the days a waiter will be working, with weekdays.
+        if (value.split(",").includes(day)) {
+          // push each waiter that will be working on that specific day.
+          waitersForSpeficDay.push(key);
+          // remove waiter duplicates from the array.
+          uniqueArray = [...new Set(waitersForSpeficDay)];
+          // populate tableDaysMap
+          tableDaysMap[day] = uniqueArray; //{ Monday: ['mtho','nthabi','thembi'], Tuesday: ['ntabi','ndo','lwazi'] }
+        }
+      });
+    });
   }
   /* ------------------------- FUNCTION TO DISPLAY WAITER NAME AND HIS/HER WORKING DAYS ------------------------- */
-
-  /* ------------------------- FUNCTIONS TO CALL ON ROUTES THAT DISPLAY INFORMATION ------------------------- */
   async function getWeekdays() {
-    const objWeekdays = await db.oneOrNone("select * from daysoftheweek");
-    let weekdaysArr = objWeekdays["weekdays"].split(",");
     return weekdaysArr;
   }
+
+  /* ------------------------- FUNCTIONS TO CALL ON ROUTES THAT DISPLAY INFORMATION ------------------------- */
+
   /* Call the function on the admin route */
   function getSchedule() {
     return weekdaysObj;
@@ -139,6 +159,10 @@ export default function dbFactoryFunc(db) {
   function getWorkingDaysForAWaiter() {
     return waitersMap;
   }
+  /* Call the function on the admin route */
+  function getTableDaysMap() {
+    return tableDaysMap;
+  }
   /* ------------------------- FUNCTIONS TO CALL ON ROUTES THAT DISPLAY INFORMATION ------------------------- */
   return {
     setWaiter,
@@ -152,5 +176,6 @@ export default function dbFactoryFunc(db) {
     getWorkingDaysForAWaiter,
     adminLogin,
     resetSchedule,
+    getTableDaysMap,
   };
 }

@@ -9,17 +9,18 @@ window.addEventListener("DOMContentLoaded", function () {
     "Sunday",
   ];
   // Hit these urls when the 'see scheduled days' button is clicked on the admins page.
-  // const baseUrl = "http://localhost:3002/info";
-  // const scheduleurl = "http://localhost:3002/inform";
+  const baseUrl = "http://localhost:3002/info";
+  const scheduleurl = "http://localhost:3002/inform";
 
-  const baseUrl = "https://waiter-webapp-ywrf.onrender.com/info";
-  const scheduleurl = "https://waiter-webapp-ywrf.onrender.com/inform";
+  // const baseUrl = "https://waiter-webapp-ywrf.onrender.com/info";
+  // const scheduleurl = "https://waiter-webapp-ywrf.onrender.com/inform";
 
   /* ------------------ GET HTML ELEMENTS ------------------ */
   const addDaysBtn = document.querySelector(".add-days-btn");
   const scheduleBtn = document.querySelector(".schedule-btn");
   const dayEle = document.querySelectorAll(".weekday");
   const reset = document.querySelector(".reset-schedule-btn");
+
   /* ------------------ GET HTML ELEMENTS ------------------ */
 
   /* ------------------ FUNCTIONALITY FOR LIMITING CHECKBOXES ------------------ */
@@ -47,6 +48,8 @@ window.addEventListener("DOMContentLoaded", function () {
         });
         updateLabel("");
       }
+
+      // console.log(count);
     }
     function updateLabel(message) {
       const label = document.getElementById("messageLabel");
@@ -56,7 +59,13 @@ window.addEventListener("DOMContentLoaded", function () {
   });
   /* ------------------ FUNCTIONALITY FOR LIMITING CHECKBOXES ------------------ */
 
+  let element = document.querySelectorAll('input[type="checkbox"]:checked');
   function addDaysFunc(e) {
+    // e.preventDefault();
+    element.forEach((el) => {
+      el.setAttribute("checked", "checked");
+    });
+    console.log(el);
     // ONLY SUBMIT WHEN THERES EXACTLY THREE CHECKBOXES CHECKED.
     count === 3 ? "" : e.preventDefault();
   }
@@ -111,8 +120,7 @@ window.addEventListener("DOMContentLoaded", function () {
       const deleteData = window.confirm(
         "Are you sure you want to reset waiter schedule"
       );
-      //when true delete the data, when false do not delete data
-
+      //when true delete the data, when false do not delete dataS
       deleteData ? "" : e.preventDefault();
     });
   }

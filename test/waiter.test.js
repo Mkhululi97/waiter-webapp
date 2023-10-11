@@ -16,16 +16,12 @@ describe("Test Waiter Functions", function () {
 
   /* ------------------------ TESTS CONNECTED TO THE DATABASE ------------------------ */
   describe("setWaiter function", function () {
-    it("should send waiter names to the db", async function () {
+    it("should add waiter details to the waiters table", async function () {
       try {
         let dbFactoryFunc = DBFactoryFunc(db);
-        await dbFactoryFunc.setWaiter("Mdu", 343, "psswrd123");
-        let res = {
-          waiter_name: "mdu",
-        };
         assert.deepEqual(
-          res,
-          await dbFactoryFunc.setWaiter("Mdu", 343, "psswrd123")
+          [{ password: "mdu123", waiter_id: 1, waiter_name: "mdu" }],
+          await dbFactoryFunc.setWaiter("Mdu", "mdu123")
         );
       } catch (err) {
         console.log(err);
@@ -34,13 +30,13 @@ describe("Test Waiter Functions", function () {
   });
 
   describe("setDays function", function () {
-    it("should send a string of days to the db", async function () {
+    it("should send to the workingdays table, the ids that match each day that was selected", async function () {
       try {
         let dbFactoryFunc = DBFactoryFunc(db);
-        await dbFactoryFunc.setWaiter("Mdu", 343, "psswrd123");
+        await dbFactoryFunc.setWaiter("Mdu", "mdu123");
         let days = ["Monday", "Wednesday", "Thursday"];
-        let resArr = [{ workdays: "Monday,Wednesday,Thursday" }];
-        let sendQuery = await dbFactoryFunc.setDays(days);
+        let resArr = [{ weekdayid: 1 }, { weekdayid: 3 }, { weekdayid: 4 }];
+        let sendQuery = await dbFactoryFunc.setDays(days, "Mdu");
         assert.deepEqual(resArr, sendQuery);
       } catch (err) {
         console.log(err);
@@ -48,16 +44,16 @@ describe("Test Waiter Functions", function () {
     });
   });
 
-  describe("setWorkingDaysForAWaiter function", function () {
-    it("should add the current waiter name and waiter working days to the waiters map", async function () {
+  describe("setSchedule function", function () {
+    it("should group waiters according to days they selected to work", async function () {
       try {
         let dbFactoryFunc = DBFactoryFunc(db);
-        await dbFactoryFunc.setWaiter("Mdu", 343, "psswrd123");
-        await dbFactoryFunc.setDays(["Monday", "Wednesday", "Thursday"]);
-        await dbFactoryFunc.setWorkingDaysForAWaiter();
+        await dbFactoryFunc.setWaiter("Mdu", "mdu123");
+        await dbFactoryFunc.setDays(["Monday", "Wednesday", "Thursday"], "Mdu");
+        await dbFactoryFunc.setSchedule();
         assert.deepEqual(
-          { mdu: "Monday,Wednesday,Thursday" },
-          dbFactoryFunc.getWorkingDaysForAWaiter()
+          { Monday: ["mdu"], Wednesday: ["mdu"], Thursday: ["mdu"] },
+          dbFactoryFunc.getSchedule()
         );
       } catch (err) {
         console.log(err);
@@ -78,11 +74,13 @@ describe("Test Waiter Functions", function () {
       }
     });
   });
+
   describe("resetSchedule function", function () {
     it("should clear both the waiters and the workingdays table from the database", async function () {
       let dbFactoryFunc = DBFactoryFunc(db);
-      await dbFactoryFunc.setWaiter("Mdu", 343, "psswrd123");
-      await dbFactoryFunc.setDays(["Monday", "Wednesday", "Thursday"]);
+      await dbFactoryFunc.setWaiter("Mdu", "mdu123");
+      await dbFactoryFunc.setDays(["Monday", "Wednesday", "Thursday"], "Mdu");
+      await dbFactoryFunc.setSchedule();
       assert.equal(null, await dbFactoryFunc.resetSchedule());
     });
   });

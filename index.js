@@ -71,8 +71,8 @@ app.get("/waiters/:username", waiterRoute.waitersPage);
 app.get("/admin", waiterRoute.adminPage);
 // sends data to frontend about which days are over, fully, under, booked.
 app.get("/info", waiterRoute.info);
-// sends data to frontend about the waiter names and their working days.
-app.get("/inform", waiterRoute.inform);
+// // sends data to frontend about the waiter names and their working days.
+// app.get("/inform", waiterRoute.inform);
 // // action taken on the add days button, on the waiters page.
 app.post("/waiters/:username", waiterRoute.days);
 // action taken on the reset schedule button, on the admins page.

@@ -12,9 +12,10 @@ create table waiters(
 
 create table workingdays(
   id serial not null primary key, 
-  workdays varchar(30) not null, 
+  weekdayid int not null, 
   waiterid int not null, 
   foreign key (waiterid) references waiters(waiter_id) on delete cascade
+  foreign key (weekdayid) references daysoftheweek(id) on delete cascade
 )
 
 create table daysoftheweek(

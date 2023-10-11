@@ -31,12 +31,11 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
     try {
       let username = req.body.username;
       let password = req.body.password;
-      let employee_id = req.body.employee_id;
       /* WHEN THE USER IS A WAITER */
       // only submit the form when all inputs have been entered.
-      if (username !== "" && password !== "" && employee_id !== "") {
+      if (username !== "" && password !== "") {
         /* CREATE ACCOUNT FOR A NEW WAITER */
-        await dbFunc.setWaiter(username, employee_id, password);
+        await dbFunc.setWaiter(username, password);
         res.redirect(`/waiters/${username}`);
       } else {
         // throw an error message.
@@ -51,7 +50,7 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
       let currentWaiter = req.params.username;
       /* SHOW WAITERS PAGE, WITH CHECKBOX WEEKDAYS TO SELECT FROM */
       res.render("waiters", {
-        waiter_name: dbFunc.getWaiter(),
+        waiter_name: currentWaiter,
       });
     } catch (err) {
       console.log(err);
@@ -62,7 +61,7 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
       let workingDays = req.body.checkbox;
       let currentWaiter = req.params.username;
       /* SEND THE WEEKDAYS SELECTED TO THE DB */
-      await dbFunc.setDays(workingDays);
+      await dbFunc.setDays(workingDays, currentWaiter);
       res.redirect(`/waiters/${currentWaiter}`);
     } catch (err) {
       console.log(err);
@@ -73,9 +72,10 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
     try {
       /* SHOW THE ADMINS PAGE, WITH THE SCHEDULE AND WAITER NAMES AVAILABLE TO WORK */
       await dbFunc.setSchedule();
-      await dbFunc.setWorkingDaysForAWaiter();
+      // await dbFunc.setWorkingDaysForAWaiter();
       res.render("admin", {
         weekdays: await dbFunc.getWeekdays(),
+        scheduleObject: dbFunc.getSchedule(),
       });
     } catch (err) {
       console.log(err);
@@ -92,11 +92,7 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
   /* SEND SCHEDULE DATA TO THE FRONTEND */
   async function info(req, res) {
     /*------------------------------------ populate the waiter days here ------------------------------------*/
-    res.json({ info: dbFunc.getSchedule() });
-  }
-  /* SEND WAITER NAME AND WAITER WORKING DAYS DATA TO THE FRONTEND */
-  async function inform(req, res) {
-    res.json(dbFunc.getWorkingDaysForAWaiter());
+    res.json({ info: dbFunc.dayCounter() });
   }
   /* ------------------------- ROUTES CONCERNED WITH THE ADMINS PAGE ------------------------- */
 
@@ -107,7 +103,6 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
     adminPage,
     days,
     info,
-    inform,
     adminLoginForm,
     adminLoginDetails,
     reset,

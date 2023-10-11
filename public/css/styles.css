@@ -32,6 +32,9 @@ body {
   text-align: center;
   font-size: 3.6rem;
 }
+.error-text {
+  color: red;
+}
 
 @media (min-width: 68em) {
   html {

@@ -9,11 +9,9 @@ window.addEventListener("DOMContentLoaded", function () {
     "Sunday",
   ];
   // Hit these urls when the 'see scheduled days' button is clicked on the admins page.
-  const baseUrl = "http://localhost:3002/info";
-  const scheduleurl = "http://localhost:3002/inform";
+  // const baseUrl = "http://localhost:3002/info";
 
-  // const baseUrl = "https://waiter-webapp-ywrf.onrender.com/info";
-  // const scheduleurl = "https://waiter-webapp-ywrf.onrender.com/inform";
+  const baseUrl = "https://waiter-webapp-ywrf.onrender.com/info";
 
   /* ------------------ GET HTML ELEMENTS ------------------ */
   const addDaysBtn = document.querySelector(".add-days-btn");
@@ -25,7 +23,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
   /* ------------------ FUNCTIONALITY FOR LIMITING CHECKBOXES ------------------ */
   const checkboxsArr = document.querySelectorAll('input[type="checkbox"]');
-  const checkboxLimit = 3;
+  const checkboxLimit = 5;
   let count;
   checkboxsArr.forEach(function (checkbox) {
     function checkboxFunc() {
@@ -48,8 +46,6 @@ window.addEventListener("DOMContentLoaded", function () {
         });
         updateLabel("");
       }
-
-      // console.log(count);
     }
     function updateLabel(message) {
       const label = document.getElementById("messageLabel");
@@ -61,7 +57,6 @@ window.addEventListener("DOMContentLoaded", function () {
 
   let element = document.querySelectorAll('input[type="checkbox"]:checked');
   function addDaysFunc(e) {
-    // e.preventDefault();
     element.forEach((el) => {
       el.setAttribute("checked", "checked");
     });
@@ -89,31 +84,9 @@ window.addEventListener("DOMContentLoaded", function () {
         dayEle[index].classList.add("under-booked");
       }
     });
-    currentSchedule();
   }
   /* ------------------ FUNCTIONALITY THAT SHOWS DAYS SCHEDULED IN APPROPRIATE COLORS ------------------ */
 
-  /* ------------------ TEMPLATE THAT SHOWS WAITER NAME AND DAYS THEY SELECTED TO WORK ------------------ */
-  async function currentSchedule() {
-    const res = await fetch(scheduleurl, {
-      method: "GET",
-    });
-    const data = await res.json(); // gets the object(waitersMap) that has waiter names and days, sent from the backend.
-    const waiterTempContainer = document.querySelector("#waiters-working-days");
-    let out = "";
-    Object.entries(data).forEach(([key, value]) => {
-      out += `
-        <div class="waiter-working-days">
-          <ul>
-            <li class="waiter-name">${key}👨🏽‍🍳</li>
-            <li>${value}</li>
-          </ul>
-        </div>
-        `;
-    });
-    waiterTempContainer.innerHTML = out;
-  }
-  /* ------------------ TEMPLATE THAT SHOWS WAITER NAME AND DAYS THEY SELECTED TO WORK ------------------ */
   /* ------------------ EVENT LISTENERS ------------------ */
   if (reset !== null) {
     reset.addEventListener("click", function (e) {

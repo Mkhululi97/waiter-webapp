@@ -1,19 +1,17 @@
 export default function dbFactoryFunc(db) {
-  let waiter;
   let waiters;
-  let waiterWorkingDays;
   let usernameTrimmed;
   let adminUser;
-  let currentWaiter;
-  let workdays;
-  let weekdaysObj;
-  let updateWorkingdays = false;
+  let waiterid;
+  let waiteridexist;
+  let weekdaysArr;
+  let weekdaysObj = {};
   let isAdmin = false;
-  let waitersMap = {};
+  let counterMap = {};
   const lettersOnlyRegex = /^[a-zA-Z]+$/;
 
   /* Sign new waiters up */
-  async function setWaiter(username, employee_id, password) {
+  async function setWaiter(username, password) {
     usernameTrimmed = username.trim().toLowerCase();
     // ensure the string inputed is username that does not contain any numbers and spaces.
     if (lettersOnlyRegex.test(usernameTrimmed)) {
@@ -24,16 +22,11 @@ export default function dbFactoryFunc(db) {
       // if the waiter doesn't exists on the db then add the waiter to the db
       if (!waitercheck) {
         await db.none(
-          "insert into waiters (waiter_name, employee_id, password) values ($1,$2,$3)",
-          [usernameTrimmed, employee_id, password]
+          "insert into waiters (waiter_name,password) values ($1,$2)",
+          [usernameTrimmed, password]
         );
-      } else {
-        updateWorkingdays = true;
       }
-      // waiters = await db.manyOrNone("select * from waiters");
-      waiter = usernameTrimmed;
-      currentWaiter = usernameTrimmed;
-      return waitercheck;
+      return await db.manyOrNone("select * from waiters");
     }
   }
   /* Take user to the admins page, only if they exist on the admins table */
@@ -53,129 +46,147 @@ export default function dbFactoryFunc(db) {
     }
     return isAdmin;
   }
-  /* Deal with the days a waiter would like to work */
-  async function setDays(days) {
-    let daysStr = days.toString();
-    let waiterid = await db.oneOrNone(
-      "select waiter_id from waiters where waiter_name=$1",
-      [currentWaiter]
-    );
-    /* Get new waiters to add days they will be working, if it's a existing waiter, update their schedule. */
-    if (updateWorkingdays) {
-      await db.none("update workingdays set workdays=$1 where waiterid=$2", [
-        daysStr,
-        waiterid["waiter_id"],
-      ]);
-      updateWorkingdays = false;
-    } else {
-      await db.none(
-        "insert into workingdays (workdays, waiterid) values ($1, $2)",
-        [daysStr, waiterid["waiter_id"]]
-      );
-    }
 
-    return await db.manyOrNone("select workdays from workingdays");
+  /* Deal with the days a waiter would like to work */
+  async function setDays(days, waiterParams) {
+    // check if the current waiter exists on the waiters table.
+    let checkwaiter = await db.oneOrNone(
+      "select waiter_id from waiters where waiter_name=$1",
+      [waiterParams.toLowerCase()]
+    );
+
+    if (checkwaiter !== null) {
+      // if they do, check for their id on the workingdays table.
+      waiteridexist = await db.manyOrNone(
+        "select weekdayid from workingdays where waiterid=$1",
+        [checkwaiter["waiter_id"]]
+      );
+      waiterid = checkwaiter["waiter_id"];
+    }
+    // if their id is not on the workingdays table, then add their selected days.
+    let dayid;
+    //only work this code with users that exist in the waiters table.
+    if (waiteridexist !== undefined) {
+      // when user hasn't selected their days
+      if (waiteridexist.length < 1) {
+        for (const day of days) {
+          dayid = await db.oneOrNone(
+            "select id from daysoftheweek where weekdays=$1",
+            [day]
+          );
+          await db.none(
+            "insert into workingdays (weekdayid, waiterid) values ($1,$2)",
+            [dayid["id"], waiterid]
+          );
+        }
+      }
+      // when user has selected their days
+      if (waiteridexist.length > 0) {
+        // delete previous days for the current waiter.
+        db.none("delete from workingdays where waiterid=$1", [waiterid]);
+        for (const day of days) {
+          dayid = await db.oneOrNone(
+            "select id from daysoftheweek where weekdays=$1",
+            [day]
+          );
+          // insert the update of the newld dy selecteays for the current waiter.
+          await db.none(
+            "insert into workingdays (weekdayid, waiterid) values ($1,$2)",
+            [dayid["id"], waiterid]
+          );
+        }
+      }
+    } else {
+      // only work this code with users that don't exist in the waiters table.
+      // if the current waiters doesn't exist on the waiters table,
+      // throw an error ("not waiter not registered");
+    }
+    return await db.manyOrNone(
+      "select weekdayid from workingdays where waiterid=$1",
+      [waiterid]
+    );
+  }
+  async function getWeeklydays() {
+    return await db.manyOrNone("select * from daysoftheweek");
+  }
+  async function waitersDay(waiterParams) {
+    // toLowerCase() format name/ validate.
+    // look at inner joins from basic express app.
+    // get actual
   }
 
+  function keepWaiterDaysChecked() {
+    // send data to the frontend.
+  }
   /* Counts how many times each weekday, has been selected */
   async function setSchedule() {
-    workdays = await db.manyOrNone("select workdays from workingdays");
-    /* +++++++++++++++++++++++++++++++++++++++++++++ */
-    /* use this logic to get which days are fully book and
-     which are under booked and which are over booked */
     weekdaysObj = {};
-    workdays.forEach((weekdaysStr) => {
-      let weekdaysArr = weekdaysStr.workdays.split(",");
-      weekdaysArr.forEach((day) => {
-        if (weekdaysObj[day] === undefined) {
-          weekdaysObj[day] = 1;
-        } else {
-          weekdaysObj[day]++;
-        }
-      });
+    let scheduleday;
+    let schedulewaiter;
+    weekdaysArr = await db.manyOrNone("select weekdays from daysoftheweek");
+    // get data with two columns one with weekdays and the second with
+    // list of waiter names
+    let fullSchedule = await db.manyOrNone(
+      `select dof.weekdays, w.waiter_name
+      from workingdays as wdays 
+      inner join daysoftheweek as dof on dof.id = wdays.weekdayid 
+      inner join waiters as w on w.waiter_id= wdays.waiterid
+      `
+    );
+    fullSchedule.forEach((scheduleObject) => {
+      scheduleday = scheduleObject["weekdays"];
+      schedulewaiter = scheduleObject["waiter_name"];
+      if (weekdaysObj[scheduleday] === undefined) {
+        weekdaysObj[scheduleday] = [];
+        weekdaysObj[scheduleday].push(schedulewaiter);
+      } else {
+        weekdaysObj[scheduleday].push(schedulewaiter);
+      }
     });
-    /* +++++++++++++++++++++++++++++++++++++++++++++ */
   }
 
+  function dayCounter() {
+    Object.entries(weekdaysObj).forEach(([key, value]) => {
+      /* logic to get which days are fully book and
+     which are under booked and which are over booked */
+      if (counterMap[key] === undefined) {
+        counterMap[key] = value.length;
+      }
+    });
+    return counterMap;
+  }
   async function resetSchedule() {
     weekdaysObj = {};
-    waitersMap = {};
+    counterMap = {};
     return await db.none("truncate table waiters restart identity cascade");
   }
+  /* ------------------------- FUNCTIONS TO CALL ON ROUTES THAT DISPLAY INFORMATION ------------------------- */
 
-  /* ------------------------- FUNCTION TO DISPLAY WAITER NAME AND HIS/HER WORKING DAYS ------------------------- */
-  let weekdaysArr;
-  let tableDaysMap = {};
-  let waitersForSpeficDay = [];
-  let uniqueArray;
-  async function setWorkingDaysForAWaiter() {
-    const objWeekdays = await db.oneOrNone("select * from daysoftheweek");
-    weekdaysArr = objWeekdays["weekdays"].split(",");
-    waiters = await db.manyOrNone("select * from waiters");
-    for (const waiterobj of waiters) {
-      // use waiters array to find the days a set waiter will be working.
-      waiterWorkingDays = await db.manyOrNone(
-        "select workdays from workingdays where waiterid=$1",
-        waiterobj["waiter_id"]
-      );
-      waitersMap[waiterobj["waiter_name"]] = waiterWorkingDays[0]["workdays"]; // { mdu:'Monday, Tuesday, Sunday' }
-    }
-    // loop over the waitersMap
-    Object.entries(waitersMap).forEach(([key, value]) => {
-      // loop over the days of the week
-      weekdaysArr.forEach((day) => {
-        // check for the days a waiter will be working, with weekdays.
-        if (value.split(",").includes(day)) {
-          // push each waiter that will be working on that specific day.
-          waitersForSpeficDay.push(key);
-          // remove waiter duplicates from the array.
-          uniqueArray = [...new Set(waitersForSpeficDay)];
-          // populate tableDaysMap
-          tableDaysMap[day] = uniqueArray; //{ Monday: ['mtho','nthabi','thembi'], Tuesday: ['ntabi','ndo','lwazi'] }
-        }
-      });
-    });
-  }
-  /* ------------------------- FUNCTION TO DISPLAY WAITER NAME AND HIS/HER WORKING DAYS ------------------------- */
+  /* Call the function on the admin route, to display days of the week that will be color coded. */
   async function getWeekdays() {
     return weekdaysArr;
   }
-
-  /* ------------------------- FUNCTIONS TO CALL ON ROUTES THAT DISPLAY INFORMATION ------------------------- */
-
   /* Call the function on the admin route */
   function getSchedule() {
     return weekdaysObj;
   }
-  /* Call the function on the waiters route */
-  function getWaiter() {
-    return waiter;
-  }
+
   /* Call the function on the admin route */
   function getWaiters() {
     return waiters;
   }
-  /* Call the function on the admin route */
-  function getWorkingDaysForAWaiter() {
-    return waitersMap;
-  }
-  /* Call the function on the admin route */
-  function getTableDaysMap() {
-    return tableDaysMap;
-  }
+
   /* ------------------------- FUNCTIONS TO CALL ON ROUTES THAT DISPLAY INFORMATION ------------------------- */
   return {
     setWaiter,
-    getWaiter,
     getWaiters,
     setDays,
     setSchedule,
     getSchedule,
     getWeekdays,
-    setWorkingDaysForAWaiter,
-    getWorkingDaysForAWaiter,
     adminLogin,
     resetSchedule,
-    getTableDaysMap,
+    getWeeklydays,
+    dayCounter,
   };
 }

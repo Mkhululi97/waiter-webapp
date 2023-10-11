@@ -16,9 +16,15 @@
           <h2 class="secondary-heading">Hi, Ntombi👋🏽</h2>
           <p class="working-waiters-text">Here's an indication of days that are
             fully, over and under booked:</p>
+          <ul class="color-code-container">
+            <li class="labels-info fully-booked">Fully</li>
+            <li class="labels-info over-booked">Over</li>
+            <li class="labels-info under-booked">Under</li>
+            <li class="labels-info">Empty</li>
+          </ul>
           <ul class="scheduled-days">
             {{#each weekdays}}
-              <li class="weekday">{{this}} 📆</li>
+              <li class="weekday labels-info">{{this.weekdays}} 📆</li>
             {{/each}}
           </ul>
           <form action="/admin" method="GET" id="schedule"></form>
@@ -36,6 +42,22 @@
             week📆:</p>
           <div id="waiters-working-days">
           </div>
+          <table class="schedule-table">
+            <tr>
+              {{#each scheduleObject}}
+                <th>
+                  {{@key}}
+                </th>
+              {{/each}}
+            </tr>
+            <tr>
+              {{#each scheduleObject}}
+                <td>
+                  {{#each this}} {{this}} <br /> {{/each}}
+                </td>
+              {{/each}}
+            </tr>
+          </table>
         </div>
       </div>
     </main>

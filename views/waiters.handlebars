@@ -14,7 +14,7 @@
         <div class="container">
           <h2 class="secondary-heading">Hello, {{waiter_name}}👋🏽</h2>
           <p class="select-days-text">Please select✅ your working days📆</p>
-          <label id="messageLabel"></label>
+          <label id="messageLabel" class="error-text"></label>
           <div class="waiter-days">
             <form action="/waiters/{{waiter_name}}" method="POST" id="add-days">
               <ul>

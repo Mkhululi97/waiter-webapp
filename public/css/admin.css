@@ -43,11 +43,50 @@ body {
     background-color: transparent;
     color: #fefae0;
   }
-  .scheduled-days {
+
+  /* ---------------- style your table ---------------- */
+  .schedule-table {
+    border-collapse: collapse;
+    font-size: 2rem;
+    min-width: 100%;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    margin-bottom: 30px;
+  }
+  .schedule-table tr {
+    background-color: #dda15e;
+    color: #bc6c25;
+    color: #ab6324;
+    text-align: left;
+    font-weight: bold;
+  }
+  .schedule-table th,
+  .schedule-table td {
+    padding: 12px 15px;
+  }
+  .schedule-table tr {
+    border-bottom: 3px solid #dddddd;
+  }
+  .schedule-table tbody tr:nth-of-type(even) {
+    background-color: #fcd5a9;
+  }
+  .schedule-table tr:last-of-type {
+    border-bottom: 9px solid #dda15e;
+  }
+  /* ---------------- style your table ---------------- */
+  .scheduled-days,
+  .color-code-container {
     display: flex;
     gap: 20px;
+  }
+  .color-code-container {
+    margin-block-end: 32px;
+  }
+  .scheduled-days {
     margin-block-end: 52px;
   }
+  .labels-info,
   .weekday {
     padding: 10px;
     border-radius: 5px;

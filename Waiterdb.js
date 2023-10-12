@@ -115,8 +115,21 @@ export default function dbFactoryFunc(db) {
     // get actual
   }
 
-  function keepWaiterDaysChecked() {
-    // send data to the frontend.
+  async function keepWaiterDaysChecked(waiterParams) {
+    /* query for getting working days for the current waiter */
+    waiterid = await db.oneOrNone(
+      "select waiter_id from waiters where waiter_name=$1",
+      waiterParams
+    );
+    let waiterdays = await db.manyOrNone(
+      `select weekdays from workingdays as wdays
+      inner join daysoftheweek as dof on dof.id = wdays.weekdayid
+      inner join waiters as w on w.waiter_id = wdays.waiterid where w.waiter_id=$1
+      `,
+      [waiterid["waiter_id"]]
+    );
+    // send this data to the frontend.
+    return waiterdays;
   }
   /* Counts how many times each weekday, has been selected */
   async function setSchedule() {
@@ -181,6 +194,7 @@ export default function dbFactoryFunc(db) {
     setWaiter,
     getWaiters,
     setDays,
+    keepWaiterDaysChecked,
     setSchedule,
     getSchedule,
     getWeekdays,

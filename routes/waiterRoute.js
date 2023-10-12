@@ -51,6 +51,7 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
       /* SHOW WAITERS PAGE, WITH CHECKBOX WEEKDAYS TO SELECT FROM */
       res.render("waiters", {
         waiter_name: currentWaiter,
+        waiterDays: await dbFunc.keepWaiterDaysChecked(currentWaiter),
       });
     } catch (err) {
       console.log(err);

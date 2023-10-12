@@ -16,6 +16,9 @@ import db from "./database.js";
 import routesFunction from "./routes/waiterRoute.js";
 /* ##### BRING IN DATABASE FACTORY FUNCTION ##### */
 import dbFunctions from "./Waiterdb.js";
+/* ##### BRING IN HANDLEBARS FUNCTIONS ##### */
+// import hbsHelpers from "./helpersHandlebars.js";
+import helpers from "./helpersHandlebars.js";
 
 /* -------------------- ALL INSTANCES -------------------- */
 
@@ -27,11 +30,19 @@ const factoryFunc = Waiter();
 const dbFunc = dbFunctions(db);
 /* INITIALIZE ROUTES FUNCTION */
 const waiterRoute = routesFunction(factoryFunc, dbFunc);
+/* INITIALIZE  HANDLEBARS FUNCTIONS */
+// const helpersHandlebars = hbsHelpers();
+const helpersHandlebars = helpers();
 
 /* -------------------- ALL INSTANCES -------------------- */
 
 /* -------------------- SETUP ENGINE -------------------- */
-app.engine("handlebars", engine());
+app.engine(
+  "handlebars",
+  engine({
+    helpers: helpersHandlebars,
+  })
+);
 app.set("view engine", "handlebars");
 app.set("views", "./views");
 

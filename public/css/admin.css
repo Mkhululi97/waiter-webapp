@@ -3,6 +3,11 @@ body {
   background-image: none;
   color: #fefae0;
 }
+.logout {
+  color: #fefae0;
+  text-decoration: underline;
+}
+
 @media (min-width: 68em) {
   .container {
     max-width: fit-content;

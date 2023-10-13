@@ -45,9 +45,10 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
       console.log(err);
     }
   }
+  let currentWaiter;
   async function waitersPage(req, res) {
+    currentWaiter = req.params.username;
     try {
-      let currentWaiter = req.params.username;
       /* SHOW WAITERS PAGE, WITH CHECKBOX WEEKDAYS TO SELECT FROM */
       res.render("waiters", {
         waiter_name: currentWaiter,
@@ -95,6 +96,10 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
     /*------------------------------------ populate the waiter days here ------------------------------------*/
     res.json({ info: dbFunc.dayCounter() });
   }
+
+  async function waiterdays(req, res) {
+    res.json({ waiterdays: await dbFunc.keepWaiterDaysChecked(currentWaiter) });
+  }
   /* ------------------------- ROUTES CONCERNED WITH THE ADMINS PAGE ------------------------- */
 
   return {
@@ -107,5 +112,6 @@ export default function WaiterRoute(factoryFunc, dbFunc) {
     adminLoginForm,
     adminLoginDetails,
     reset,
+    waiterdays,
   };
 }

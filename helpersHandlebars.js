@@ -1,7 +1,11 @@
 export default function helperFunctions() {
   function keepdaysChecked(waiterdays, dayoftheweek) {
-    console.log(waiterdays);
-    if (waiterdays === waiterdays) return dayoftheweek;
+    waiterdays.forEach((day) => {
+      if (day.weekdays === dayoftheweek) {
+        console.log(day.weekdays);
+        return day.weekdays;
+      }
+    });
   }
 
   return {

@@ -9,18 +9,36 @@ window.addEventListener("DOMContentLoaded", function () {
     "Sunday",
   ];
   // Hit these urls when the 'see scheduled days' button is clicked on the admins page.
-  const baseUrl = "http://localhost:3002/info";
+  // const baseUrl = "http://localhost:3002/info";
+  // const waiterDaysUrl = "http://localhost:3002/waiterdays";
 
-  // const baseUrl = "https://waiter-webapp-ywrf.onrender.com/info";
+  const baseUrl = "https://waiter-webapp-ywrf.onrender.com/info";
+  const waiterDaysUrl = "https://waiter-webapp-ywrf.onrender.com/waiterdays";
 
   /* ------------------ GET HTML ELEMENTS ------------------ */
   const addDaysBtn = document.querySelector(".add-days-btn");
   const scheduleBtn = document.querySelector(".schedule-btn");
   const dayEle = document.querySelectorAll(".weekday");
   const reset = document.querySelector(".reset-schedule-btn");
-
+  const checkboxArr = document.querySelectorAll(".checkbox");
   /* ------------------ GET HTML ELEMENTS ------------------ */
-
+  async function persistCheckedDays() {
+    const res = await fetch(waiterDaysUrl, {
+      method: "GET",
+    });
+    const data = await res.json();
+    let waiterdaysArrObj = data.waiterdays;
+    let waiterdaysArr = [];
+    waiterdaysArrObj.forEach((day) => {
+      waiterdaysArr.push(day["weekdays"]);
+    });
+    checkboxArr.forEach((checkbox, index) => {
+      waiterdaysArr.includes(checkbox["value"])
+        ? (checkbox.checked = true)
+        : "";
+    });
+  }
+  if (checkboxArr.length > 0) persistCheckedDays();
   /* ------------------ FUNCTIONALITY FOR LIMITING CHECKBOXES ------------------ */
   const checkboxsArr = document.querySelectorAll('input[type="checkbox"]');
   const checkboxLimit = 5;
